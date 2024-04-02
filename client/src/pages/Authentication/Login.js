@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
+import { LOGIN_URL } from "../../constants";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +15,38 @@ const Login = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     navigate("/register");
+  };
+
+  const handleLogin = (e) => {
+    if (!data?.password) return toast.error("Please enter your password.");
+    if (!data?.email) return toast.error("Please enter your email.");
+
+    try {
+      axios
+        .post(LOGIN_URL, {
+          email: data.email,
+          password: data.password,
+        })
+        .then((response) => {
+          // Extract the access token from the response
+          const accessToken = response.data.accessToken;
+
+          // Decode the token to get user information
+          const decodedToken = jwtDecode(accessToken);
+
+          // Store the access token and userdata in local storage
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("user", JSON.stringify(decodedToken));
+
+          toast.success("Login successful");
+          navigate("/dashboard");
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,7 +84,10 @@ const Login = () => {
         Don't have an account? Register here.
         <svg class="bi" aria-hidden="true"></svg>
       </a>
-      <button className="btn btn-primary btn-md btn-block my-2  rounded-pill w-25 align-self-center">
+      <button
+        onClick={handleLogin}
+        className="btn btn-primary btn-md btn-block my-2  rounded-pill w-25 align-self-center"
+      >
         {" "}
         Login
       </button>

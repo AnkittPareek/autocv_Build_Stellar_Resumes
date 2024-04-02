@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import pattern from "../../assets/pattern.jpg";
 import Registration from "./Registration";
 import Login from "./Login";
+import { APP_NAME } from "../../constants";
 
 const LazyImage = lazy(() => import("./LazyImage"));
 
@@ -16,7 +17,7 @@ const Index = () => {
           <LazyImage src={pattern} alt="Pattern" />
         </Suspense>
         <div className="position-absolute top-50 start-50 translate-middle text-center">
-          <h1 className="text">Auto CV</h1>
+          <h1 className="text">{APP_NAME}</h1>
           <p className="text-muted">
             Transform Your Career Path with Stellar Resumes
           </p>
