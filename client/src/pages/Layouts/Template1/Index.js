@@ -15,7 +15,7 @@ const Index = ({
   socialProfiles,
 }) => {
   return (
-    <div className=" border border-2 ">
+    <div style={{ boxSizing: "border-box" }} className=" border border-2 ">
       <Header dark={true} basicDetails={basicDetails} />
       <div className="d-flex gap-2">
         <div className="col-6">

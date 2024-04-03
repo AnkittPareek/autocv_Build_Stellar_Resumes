@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../api/axios";
+import axiosInstance from "../../api/axios";
 import { LOGIN_URL } from "../../constants";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import Loader from "../../common/Loader/Loader";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -21,36 +23,37 @@ const Login = () => {
     if (!data?.password) return toast.error("Please enter your password.");
     if (!data?.email) return toast.error("Please enter your email.");
 
-    try {
-      axios
-        .post(LOGIN_URL, {
-          email: data.email,
-          password: data.password,
-        })
-        .then((response) => {
-          // Extract the access token from the response
-          const accessToken = response.data.accessToken;
+    setLoading(true);
 
-          // Decode the token to get user information
-          const decodedToken = jwtDecode(accessToken);
+    axiosInstance
+      .post(LOGIN_URL, {
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        // Extract the access token from the response
+        const accessToken = response.data.accessToken;
 
-          // Store the access token and userdata in local storage
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("user", JSON.stringify(decodedToken));
+        // Decode the token to get user information
+        const decodedToken = jwtDecode(accessToken);
 
-          toast.success("Login successful");
-          navigate("/dashboard");
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+        // Store the access token and userdata in local storage
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("user", JSON.stringify(decodedToken));
+
+        toast.success("Login successful");
+        setLoading(false);
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
   };
 
   return (
     <div className="col-12  p-5  text-center d-flex flex-column justify-content-center ">
+      {loading && <Loader />}
       <h4>Login</h4>
       {/* Input field for email */}
       <div className="d-flex flex-column gap-2 mt-4">

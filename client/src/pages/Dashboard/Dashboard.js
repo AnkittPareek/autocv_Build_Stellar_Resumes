@@ -1,20 +1,47 @@
-import React, { startTransition } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavBar from "../../common/TopNavBar/TopNavBar";
 import Editor from "../Editor/Editor";
 import Template1 from "../Layouts/Template1/Index";
 import Template2 from "../Layouts/Template2/Index";
 import Loader from "../../common/Loader/Loader";
+import axiosInstance from "../../api/axios";
+import { RESUME_FETCHALL_URL } from "../../constants";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [resumes, setResumes] = useState([]);
+
+  useEffect(() => {
+    fetchResumes();
+  }, []);
+
+  const fetchResumes = async () => {
+    setLoading(true);
+    axiosInstance
+      .get(RESUME_FETCHALL_URL)
+      .then((res) => {
+        setResumes(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast.error("Something went wrong");
+      });
+  };
+
   const handleCreate = () => {
     startTransition(() => {
       navigate("/create");
     });
   };
+
   return (
     <div>
+      {loading && <Loader />}
       <TopNavBar />
       <div className="mt-3 px-5">
         <div className="d-flex justify-content-end ">
@@ -23,12 +50,50 @@ const Dashboard = () => {
           </button>
         </div>
         <hr />
-        {/* I will List all the resume's here */}
-
-        {/* <Template1 />
-        <Template2 /> */}
-        {/* <hr /> */}
-        {/* <Editor /> */}
+        {/* Listing all the resumes here*/}
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+          {resumes.map((resume, index) => {
+            let layout = resume.layout;
+            let {
+              basicDetails,
+              experience,
+              projects,
+              skills,
+              socialProfiles,
+              education,
+            } = resume;
+            return (
+              <div className="col mb-4 " key={index}>
+                <div className="card ">
+                  <div
+                    className="card-body"
+                    style={{ maxHeight: "700px", overflow: "hidden" }}
+                  >
+                    {layout === "1" ? (
+                      <Template1
+                        basicDetails={basicDetails}
+                        experience={experience}
+                        projects={projects}
+                        skills={skills}
+                        socialProfiles={socialProfiles}
+                        education={education}
+                      />
+                    ) : (
+                      <Template2
+                        basicDetails={basicDetails}
+                        experience={experience}
+                        projects={projects}
+                        skills={skills}
+                        socialProfiles={socialProfiles}
+                        education={education}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

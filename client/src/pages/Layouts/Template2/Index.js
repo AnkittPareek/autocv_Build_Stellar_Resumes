@@ -15,7 +15,7 @@ const Index = ({
   socialProfiles,
 }) => {
   return (
-    <div className=" border border-2 ">
+    <div style={{ boxSizing: "border-box" }} className=" border border-2 ">
       <Header dark={false} basicDetails={basicDetails} />
 
       <Experience experience={experience} />

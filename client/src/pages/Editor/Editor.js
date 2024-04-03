@@ -16,15 +16,22 @@ import Experience from "./Details/Experience";
 import Projects from "./Details/Projects";
 import Skills from "./Details/Skills";
 import SocialProfiles from "./Details/Social";
-import Preview from "./Preview/Preview";
 import TopNavBar from "../../common/TopNavBar/TopNavBar";
 import ChooseLayout from "./ChooseLayout";
 import Layout1 from "../Layouts/Template1/Index";
 import Layout2 from "../Layouts/Template2/Index";
+import axiosInstance from "../../api/axios";
+import { RESUME_CREATE_URL } from "../../constants";
+import Loader from "../../common/Loader/Loader";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 const Editor = () => {
+  let navigate = useNavigate();
   let pdfRef = useRef();
 
   const [selectedLayout, setSelectedLayout] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [basicDetails, setBasicDetails] = useState({
     name: "",
@@ -123,6 +130,33 @@ const Editor = () => {
     );
   };
 
+  const handleSave = () => {
+    const payload = {
+      layout: selectedLayout.id,
+      basicDetails: basicDetails,
+      experience: experience,
+      projects: projects,
+      skills: skills,
+      socialProfiles: socialProfiles,
+      education: education,
+    };
+
+    setLoading(true);
+    axiosInstance
+      .post(RESUME_CREATE_URL, payload)
+      .then((res) => {
+        toast.success("Resume Saved Successfully!");
+
+        setLoading(false);
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast.error("Something went wrong");
+      });
+  };
+
   const handleDownload = () => {
     const htmlContent = ReactDOM.findDOMNode(pdfRef.current).outerHTML;
 
@@ -140,6 +174,7 @@ const Editor = () => {
   return (
     <>
       <TopNavBar />
+      {loading && <Loader />}
       <Container>
         {window.location.pathname === "/create" && !selectedLayout ? (
           <ChooseLayout
@@ -212,7 +247,11 @@ const Editor = () => {
 
               <Row className="mt-3">
                 <Col>
-                  <Button className="me-2" variant="primary">
+                  <Button
+                    onClick={handleSave}
+                    className="me-2"
+                    variant="primary"
+                  >
                     Save
                   </Button>
                   <Button
