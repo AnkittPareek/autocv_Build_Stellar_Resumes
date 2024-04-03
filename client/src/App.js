@@ -4,12 +4,14 @@ import {
   RouterProvider,
   Routes,
   Route,
-} from "react-router-dom"; // Import Routes and Route
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./common/Loader/Loader";
 
 const Authentication = React.lazy(() => import("./pages/Authentication/Index"));
-const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard")); // Add import statement for Dashboard component
+const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
+const Editor = React.lazy(() => import("./pages/Editor/Editor"));
 
 function App() {
   const router = createBrowserRouter([
@@ -22,8 +24,12 @@ function App() {
       element: <Authentication />,
     },
     {
-      path: "/dashboard", // Add route for /dashboard
+      path: "/dashboard",
       element: <Dashboard />,
+    },
+    {
+      path: "/create",
+      element: <Editor />,
     },
   ]);
 
@@ -51,15 +57,12 @@ function App() {
   return (
     <div className="">
       <RouterProvider router={router}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
-            {" "}
-            {/* Use Routes component */}
             <Route path="/" element={<Authentication />} />{" "}
-            {/* Use Route component for / and /register */}
             <Route path="/register" element={<Authentication />} />
             <Route path="/dashboard" element={<Dashboard />} />{" "}
-            {/* Add Route for /dashboard */}
+            <Route path="/create" element={<Editor />} />{" "}
           </Routes>
         </Suspense>
       </RouterProvider>
