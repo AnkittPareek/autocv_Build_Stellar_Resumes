@@ -1,3 +1,5 @@
+/* Loader CSS */
+
 .loader-overlay {
     position: fixed;
     top: 0;
@@ -28,3 +30,16 @@
     }
   }
   
+/* Dashboard CSS */
+
+.dashboard_resume_card{
+    cursor: pointer;
+}
+.dashboard_resume_card:hover{
+    display: relative;
+    scale: 1.05;
+   top:-15px;
+   transition: 0.2s ease-in-out;
+
+
+}

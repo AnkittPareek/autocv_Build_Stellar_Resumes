@@ -8,6 +8,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./common/Loader/Loader";
+import "./css/App.css";
 
 const Authentication = React.lazy(() => import("./pages/Authentication/Index"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
@@ -29,7 +30,11 @@ function App() {
     },
     {
       path: "/create",
-      element: <Editor />,
+      element: <Editor service="create" />,
+    },
+    {
+      path: "/update/:id",
+      element: <Editor service="update" />,
     },
   ]);
 

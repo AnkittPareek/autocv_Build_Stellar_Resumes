@@ -24,10 +24,11 @@ import axiosInstance from "../../api/axios";
 import { RESUME_CREATE_URL } from "../../constants";
 import Loader from "../../common/Loader/Loader";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Editor = () => {
+const Editor = ({ service }) => {
   let navigate = useNavigate();
+  let { id } = useParams();
   let pdfRef = useRef();
 
   const [selectedLayout, setSelectedLayout] = useState(null);
@@ -84,6 +85,29 @@ const Editor = () => {
     },
   ]);
 
+  useEffect(() => {
+    if (service === "update") {
+      fetchResumeById();
+    }
+  }, []);
+
+  const fetchResumeById = () => {
+    axiosInstance
+      .get(`/api/v1/resume/${id}`)
+      .then((res) => {
+        setBasicDetails(res.data.basicDetails);
+        setExperience(res.data.experience);
+        setProjects(res.data.projects);
+        setSkills(res.data.skills);
+        setSocialProfiles(res.data.socialProfiles);
+        setEducation(res.data.education);
+        setSelectedLayout(res.data.layout);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const RenderLayout = ({
     basicDetails,
     education,
@@ -130,17 +154,7 @@ const Editor = () => {
     );
   };
 
-  const handleSave = () => {
-    const payload = {
-      layout: selectedLayout.id,
-      basicDetails: basicDetails,
-      experience: experience,
-      projects: projects,
-      skills: skills,
-      socialProfiles: socialProfiles,
-      education: education,
-    };
-
+  const saveResume = (payload) => {
     setLoading(true);
     axiosInstance
       .post(RESUME_CREATE_URL, payload)
@@ -155,6 +169,36 @@ const Editor = () => {
         setLoading(false);
         toast.error("Something went wrong");
       });
+  };
+  const updateResume = (payload) => {
+    setLoading(true);
+    axiosInstance
+      .put(`/api/v1/resume/${id}`, payload)
+      .then((res) => {
+        toast.success("Resume Saved Successfully!");
+
+        setLoading(false);
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast.error("Something went wrong");
+      });
+  };
+
+  const handleSave = () => {
+    const payload = {
+      layout: selectedLayout.id,
+      basicDetails: basicDetails,
+      experience: experience,
+      projects: projects,
+      skills: skills,
+      socialProfiles: socialProfiles,
+      education: education,
+    };
+
+    service === "update" ? updateResume(payload) : saveResume(payload);
   };
 
   const handleDownload = () => {
@@ -252,7 +296,7 @@ const Editor = () => {
                     className="me-2"
                     variant="primary"
                   >
-                    Save
+                    {service === "update" ? "Update" : "Save"}
                   </Button>
                   <Button
                     onClick={handleDownload}

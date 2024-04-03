@@ -1,5 +1,4 @@
 import React from "react";
-import "./Loader.css"; // Import your CSS file for styling
 
 const Loader = ({ loading }) => {
   return (

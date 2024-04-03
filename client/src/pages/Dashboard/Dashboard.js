@@ -39,6 +39,10 @@ const Dashboard = () => {
     });
   };
 
+  const handleResumeClick = (resumeId) => {
+    navigate(`/update/${resumeId}`);
+  };
+
   return (
     <div>
       {loading && <Loader />}
@@ -54,6 +58,7 @@ const Dashboard = () => {
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3">
           {resumes.map((resume, index) => {
             let layout = resume.layout;
+            let resumeId = resume._id;
             let {
               basicDetails,
               experience,
@@ -63,8 +68,11 @@ const Dashboard = () => {
               education,
             } = resume;
             return (
-              <div className="col mb-4 " key={index}>
-                <div className="card ">
+              <div className=" col mb-4 " key={resumeId}>
+                <div
+                  className="card dashboard_resume_card"
+                  onClick={() => handleResumeClick(resumeId)}
+                >
                   <div
                     className="card-body"
                     style={{ maxHeight: "700px", overflow: "hidden" }}
