@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Avatar from "react-avatar";
 import { APP_NAME } from "../../constants";
-
+import { getUserName } from "../commonFunctions";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const TopNavBar = () => {
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleDropdownToggle = () => {
@@ -10,8 +13,9 @@ const TopNavBar = () => {
   };
 
   const handleLogout = () => {
-    // Add logout logic here
-    console.log("Logout clicked");
+    localStorage.clear();
+    navigate("/");
+    toast.success("Logged out successfully");
   };
 
   return (
@@ -27,14 +31,18 @@ const TopNavBar = () => {
         aria-controls="navbarNavDropdown"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        onClick={handleDropdownToggle}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
       <div
-        className="collapse navbar-collapse justify-content-end"
+        className={
+          "collapse navbar-collapse justify-content-end" +
+          (showDropdown ? " show" : "")
+        }
         id="navbarNavDropdown"
       >
-        <ul className="navbar-nav">
+        <ul className="navbar-nav ml-auto">
           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"
@@ -43,9 +51,9 @@ const TopNavBar = () => {
               role="button"
               onClick={handleDropdownToggle}
             >
-              <strong>John Doe</strong>{" "}
+              <strong>{getUserName()}</strong>{" "}
               <span>
-                <Avatar name="John Doe" size="40" round={true} />
+                <Avatar name={getUserName()} size="40" round={true} />
               </span>
             </a>
             <div
