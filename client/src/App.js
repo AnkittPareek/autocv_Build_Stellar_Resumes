@@ -16,7 +16,6 @@ const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
 const Editor = React.lazy(() => import("./pages/Editor/Editor"));
 
 function App() {
-  console.log("env", process.env.REACT_APP_GOOGLE_CLIENT_ID);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -43,7 +42,6 @@ function App() {
   useEffect(() => {
     // Check if access token exists in local storage , if no then always redirect to login from any other page
     const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
     if (!accessToken) {
       if (
         window.location.pathname !== "/" &&

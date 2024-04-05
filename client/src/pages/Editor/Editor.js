@@ -1,14 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import {
-  Accordion,
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Accordion, Container, Row, Col, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import BasicDetails from "./Details/BasicDetails";
 import EducationDetails from "./Details/Education";
@@ -99,7 +91,6 @@ const Editor = ({ service }) => {
           marginRight: "auto",
         }}
       >
-        {console.log(selectedLayout === "1")}
         {selectedLayout ? (
           selectedLayout === "1" ? (
             <Layout1

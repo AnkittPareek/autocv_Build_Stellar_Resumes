@@ -8,16 +8,11 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import axios from "axios";
 import { PAYMENT_URL } from "../../constants";
 import axiosInstance from "../../api/axios";
 import { toast } from "react-toastify";
 
-const CheckoutForm = ({
-  paymentProcessing,
-  setPaymentProcessing,
-  handleDownload,
-}) => {
+const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
   const stripe = useStripe();
   const elements = useElements();
 

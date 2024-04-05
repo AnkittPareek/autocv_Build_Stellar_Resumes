@@ -1,6 +1,6 @@
 import React from "react";
 
-const Loader = ({ loading }) => {
+const Loader = () => {
   return (
     <div className={`loader-overlay `}>
       <div className="loader"></div>

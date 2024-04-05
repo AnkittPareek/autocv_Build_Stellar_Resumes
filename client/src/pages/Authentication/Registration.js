@@ -8,7 +8,6 @@ import Loader from "../../common/Loader/Loader";
 import axiosInstance from "../../api/axios";
 import { validate } from "react-email-validator";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 
 const Registration = () => {
   const [loading, setLoading] = useState(false);
@@ -84,6 +83,7 @@ const Registration = () => {
 
   return (
     <div className="col-12  p-5  text-center d-flex flex-column justify-content-center ">
+      {loading && <Loader />}
       <h4>Register</h4>
       {/* Input field for email */}
       <div className="d-flex flex-column gap-2 mt-4">

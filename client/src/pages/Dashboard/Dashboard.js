@@ -1,7 +1,6 @@
 import React, { startTransition, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavBar from "../../common/TopNavBar/TopNavBar";
-import Editor from "../Editor/Editor";
 import Template1 from "../Layouts/Template1/Index";
 import Template2 from "../Layouts/Template2/Index";
 import Loader from "../../common/Loader/Loader";

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
-import Layout1 from "../Layouts/Template1/Index";
-import Layout2 from "../Layouts/Template2/Index";
 
-const ChooseLayout = ({ selectedLayout, setSelectedLayout }) => {
+const ChooseLayout = ({ setSelectedLayout }) => {
   const [layouts, setLayouts] = useState([]);
 
   useEffect(() => {
