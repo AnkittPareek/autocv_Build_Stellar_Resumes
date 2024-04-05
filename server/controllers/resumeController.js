@@ -77,3 +77,19 @@ exports.updateOneById = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.deleteOneById = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const deletedData = await Resume.findByIdAndDelete(id);
+    if (!deletedData) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+    // Respond with a success message
+    res.json({ message: "Data deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting data by ID:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -2,8 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { REGISTER_URL, REGISTER_URL_GOOGLE } from "../../constants";
+import { toast } from "react-toastify";
+import Loader from "../../common/Loader/Loader";
+import axiosInstance from "../../api/axios";
+import { validate } from "react-email-validator";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const Registration = () => {
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
@@ -23,6 +33,55 @@ const Registration = () => {
     e.preventDefault();
     navigate("/");
   };
+
+  const registerWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      let { access_token } = tokenResponse;
+      await axiosInstance
+        .post(REGISTER_URL_GOOGLE, { token: access_token })
+        .then((response) => {
+          toast.success(
+            "Registration successful, Please login to your account"
+          );
+          setLoading(false);
+          navigate("/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        });
+    },
+  });
+
+  const handleRegister = async () => {
+    setLoading(true);
+
+    if (!data.username) return toast.error("Please enter a username");
+    if (!data.email) return toast.error("Please enter a email");
+    if (!data.password) return toast.error("Please enter a password");
+    if (data.password !== data.confirmPassword)
+      return toast.error(
+        "Your password is not matching with the confirm password"
+      );
+
+    if (!validate(data.email)) return toast.error("Please enter a valid email");
+    await axiosInstance
+      .post(REGISTER_URL, {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        toast.success("Registration successful, Please login to your account");
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(error.response.data.message);
+      });
+  };
+
   return (
     <div className="col-12  p-5  text-center d-flex flex-column justify-content-center ">
       <h4>Register</h4>
@@ -49,9 +108,17 @@ const Registration = () => {
           />
         </div>
         {/* Input field for password */}
+        <div className="form-group ">
+          <PhoneInput
+            country={"us"}
+            value={data.phone}
+            inputClass="w-100"
+            onChange={(phone) => handlePhoneChange(phone)}
+          />
+        </div>
         <div className="form-group">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             className="form-control"
             placeholder="Password"
@@ -61,7 +128,7 @@ const Registration = () => {
         </div>
         <div className="form-group">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="confirmPassword"
             className="form-control"
             placeholder="Confirm Password"
@@ -69,26 +136,37 @@ const Registration = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group ">
-          <PhoneInput
-            country={"us"}
-            value={data.phone}
-            inputClass="w-100"
-            onChange={(phone) => handlePhoneChange(phone)}
-          />
-        </div>
+        <a
+          className="icon-link mt-2 align-self-center"
+          href="#"
+          onClick={handleLogin}
+        >
+          Already have an account? Login here.
+          <svg class="bi" aria-hidden="true"></svg>
+        </a>
+        <button
+          type="button"
+          class="btn btn-sm   btn-outline-secondary  h-100"
+          onClick={() => {
+            setShowPassword((prev) => !prev);
+          }}
+        >
+          Show Password<i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
       </div>
-      <a
-        className="icon-link mt-2 align-self-center"
-        href="#"
-        onClick={handleLogin}
+      <button
+        onClick={handleRegister}
+        className="btn btn-sm   btn-primary my-2 h-100"
       >
-        Already have an account? Login here.
-        <svg class="bi" aria-hidden="true"></svg>
-      </a>
-      <button className="btn btn-primary btn-md btn-block my-2  rounded-pill w-25 align-self-center">
         {" "}
         Register
+      </button>{" "}
+      <button
+        onClick={() => registerWithGoogle()}
+        className="btn btn-sm   btn-outline-info  h-100"
+      >
+        {" "}
+        Register With Google
       </button>
     </div>
   );

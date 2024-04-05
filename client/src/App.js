@@ -9,12 +9,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./common/Loader/Loader";
 import "./css/App.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const Authentication = React.lazy(() => import("./pages/Authentication/Index"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard/Dashboard"));
 const Editor = React.lazy(() => import("./pages/Editor/Editor"));
 
 function App() {
+  console.log("env", process.env.REACT_APP_GOOGLE_CLIENT_ID);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -61,17 +63,19 @@ function App() {
 
   return (
     <div className="">
-      <RouterProvider router={router}>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<Authentication />} />{" "}
-            <Route path="/register" element={<Authentication />} />
-            <Route path="/dashboard" element={<Dashboard />} />{" "}
-            <Route path="/create" element={<Editor />} />{" "}
-          </Routes>
-        </Suspense>
-      </RouterProvider>
-      <ToastContainer position="top-center" />
+      <Suspense fallback={<Loader />}>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <RouterProvider router={router}>
+            <Routes>
+              <Route path="/" element={<Authentication />} />{" "}
+              <Route path="/register" element={<Authentication />} />
+              <Route path="/dashboard" element={<Dashboard />} />{" "}
+              <Route path="/create" element={<Editor />} />{" "}
+            </Routes>
+          </RouterProvider>
+        </GoogleOAuthProvider>
+        <ToastContainer position="top-center" />
+      </Suspense>
     </div>
   );
 }

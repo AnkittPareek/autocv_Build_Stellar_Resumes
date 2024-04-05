@@ -9,12 +9,12 @@ const ChooseLayout = ({ selectedLayout, setSelectedLayout }) => {
   useEffect(() => {
     let layoutData = [
       {
-        id: 1,
+        id: "1",
         image: "",
         title: "Sample Layout 1",
       },
       {
-        id: 2,
+        id: "2",
         image: "",
         title: "Sample Layout 2",
       },
@@ -34,7 +34,7 @@ const ChooseLayout = ({ selectedLayout, setSelectedLayout }) => {
                 <Card.Title>{layout.title}</Card.Title>
                 <Button
                   variant="primary"
-                  onClick={() => setSelectedLayout(layout)}
+                  onClick={() => setSelectedLayout(layout.id)}
                 >
                   Select Layout
                 </Button>

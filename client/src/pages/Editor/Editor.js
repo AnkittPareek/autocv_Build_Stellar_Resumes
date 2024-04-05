@@ -127,8 +127,9 @@ const Editor = ({ service }) => {
           marginRight: "auto",
         }}
       >
+        {console.log(selectedLayout === "1")}
         {selectedLayout ? (
-          selectedLayout?.id === 1 ? (
+          selectedLayout === "1" ? (
             <Layout1
               basicDetails={basicDetails}
               education={education}
@@ -175,7 +176,7 @@ const Editor = ({ service }) => {
     axiosInstance
       .put(`/api/v1/resume/${id}`, payload)
       .then((res) => {
-        toast.success("Resume Saved Successfully!");
+        toast.success("Resume Updated Successfully!");
 
         setLoading(false);
         navigate("/dashboard");
@@ -187,7 +188,43 @@ const Editor = ({ service }) => {
       });
   };
 
+  let validateBasicDetails = (details) => {
+    const errors = [];
+
+    // Check each mandatory field
+    if (!details.name.trim()) {
+      errors.push("Name is required");
+    }
+    if (!details.email.trim()) {
+      errors.push("Email is required");
+    }
+    if (!details.phone.trim()) {
+      errors.push("Phone number is required");
+    }
+    if (!details.address.trim()) {
+      errors.push("Address is required");
+    }
+    if (!details.city.trim()) {
+      errors.push("City is required");
+    }
+    if (!details.state.trim()) {
+      errors.push("State is required");
+    }
+    if (!details.pincode.trim()) {
+      errors.push("Pincode is required");
+    }
+    if (!details.intro.trim()) {
+      errors.push("Introduction is required");
+    }
+
+    return errors;
+  };
+
   const handleSave = () => {
+    const errors = validateBasicDetails(basicDetails);
+    if (errors.length > 0) {
+      return toast.error(errors[0]);
+    }
     const payload = {
       layout: selectedLayout.id,
       basicDetails: basicDetails,
@@ -215,11 +252,29 @@ const Editor = ({ service }) => {
     });
   };
 
+  const handleDelete = () => {
+    setLoading(true);
+    axiosInstance
+      .delete(`/api/v1/resume/${id}`)
+      .then((res) => {
+        toast.success("Resume Saved Successfully!");
+
+        setLoading(false);
+        toast.success("Resume Deleted Successfully!");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast.error("Something went wrong");
+      });
+  };
+
   return (
     <>
       <TopNavBar />
       {loading && <Loader />}
-      <Container>
+      <Container className="mt-4">
         {window.location.pathname === "/create" && !selectedLayout ? (
           <ChooseLayout
             setSelectedLayout={setSelectedLayout}
@@ -227,6 +282,36 @@ const Editor = ({ service }) => {
           />
         ) : (
           <Row>
+            <Row className="mb-3">
+              <Col>
+                <Button onClick={handleSave} className="me-2" variant="primary">
+                  {service === "update" ? "Update" : "Save"}
+                </Button>
+                {service === "update" && (
+                  <Button
+                    onClick={handleDownload}
+                    className="me-2 "
+                    variant="primary"
+                  >
+                    Download PDF
+                  </Button>
+                )}
+                {service === "update" && (
+                  <Button className="me-2" variant="primary">
+                    Share
+                  </Button>
+                )}
+                {service === "update" && (
+                  <Button
+                    className="me-2"
+                    variant="primary"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Col>
+            </Row>
             <Col>
               <Accordion defaultActiveKey="0">
                 <Accordion.Item eventKey="0">
@@ -288,29 +373,6 @@ const Editor = ({ service }) => {
                 skills={skills}
                 socialProfiles={socialProfiles}
               />
-
-              <Row className="mt-3">
-                <Col>
-                  <Button
-                    onClick={handleSave}
-                    className="me-2"
-                    variant="primary"
-                  >
-                    {service === "update" ? "Update" : "Save"}
-                  </Button>
-                  <Button
-                    onClick={handleDownload}
-                    className="me-2 "
-                    variant="primary"
-                  >
-                    Download PDF
-                  </Button>
-
-                  <Button className="me-2" variant="primary">
-                    Share
-                  </Button>
-                </Col>
-              </Row>
             </Col>
           </Row>
         )}

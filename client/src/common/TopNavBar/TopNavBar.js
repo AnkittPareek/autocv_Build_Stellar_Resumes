@@ -4,7 +4,7 @@ import { APP_NAME } from "../../constants";
 import { getUserName } from "../commonFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const TopNavBar = () => {
+const TopNavBar = ({ isFrom }) => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -60,6 +60,20 @@ const TopNavBar = () => {
               className={"dropdown-menu" + (showDropdown ? " show" : "")}
               aria-labelledby="navbarDropdownMenuLink"
             >
+              {isFrom !== "dashboard" && (
+                <>
+                  <a
+                    className="dropdown-item"
+                    href="#"
+                    onClick={() => {
+                      navigate("/dashboard");
+                    }}
+                  >
+                    Dashboard
+                  </a>
+                  <hr />
+                </>
+              )}
               <a className="dropdown-item" href="#" onClick={handleLogout}>
                 Logout
               </a>
