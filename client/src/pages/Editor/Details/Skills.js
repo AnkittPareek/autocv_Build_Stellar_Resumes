@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { SKILL_TEMPLATE } from "../../../constants";
 
 const Skills = ({ skills, setSkills }) => {
   const handleSkillsChange = (e, index) => {
@@ -10,7 +11,7 @@ const Skills = ({ skills, setSkills }) => {
   };
 
   const addSkillField = () => {
-    setSkills([...skills, { name: "", percentage: "" }]);
+    setSkills([...skills, SKILL_TEMPLATE]);
   };
 
   const removeSkillField = (index) => {

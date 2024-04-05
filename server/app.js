@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const testRoutes = require("./routes/testRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 const app = express();
 const PORT = process.env.PORT || 8080;
 // Use CORS middleware
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/resume", resumeRoutes);
+app.use("/api/v1/payment", paymentRoutes);
 
 // Start the server
 app.listen(PORT, () => {

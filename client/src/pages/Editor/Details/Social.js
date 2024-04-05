@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { SOCIAL_PROFILES_TEMPLATE } from "../../../constants";
 
 const SocialProfiles = ({ socialProfiles, setSocialProfiles }) => {
   const handleSocialProfilesChange = (e, index) => {
@@ -10,7 +11,7 @@ const SocialProfiles = ({ socialProfiles, setSocialProfiles }) => {
   };
 
   const addSocialProfileField = () => {
-    setSocialProfiles([...socialProfiles, { platform: "", profileLink: "" }]);
+    setSocialProfiles([...socialProfiles, SOCIAL_PROFILES_TEMPLATE]);
   };
 
   const removeSocialProfileField = (index) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { PROJECT_TEMPLATE } from "../../../constants";
 
 const Projects = ({ projects, setProjects }) => {
   const handleProjectsChange = (e, index) => {
@@ -10,16 +11,7 @@ const Projects = ({ projects, setProjects }) => {
   };
 
   const addProjectField = () => {
-    setProjects([
-      ...projects,
-      {
-        title: "",
-        teamSize: "",
-        duration: "",
-        technologies: "",
-        description: "",
-      },
-    ]);
+    setProjects([...projects, PROJECT_TEMPLATE]);
   };
 
   const removeProjectField = (index) => {

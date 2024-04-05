@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import { EXPERIENCE_TEMPLATE } from "../../../constants";
 
 const Experience = ({ experience, setExperience }) => {
   const handleExperienceChange = (e, index) => {
@@ -10,18 +11,7 @@ const Experience = ({ experience, setExperience }) => {
   };
 
   const addExperienceField = () => {
-    setExperience([
-      ...experience,
-      {
-        organization: "",
-        location: "",
-        position: "",
-        ctc: "",
-        startDate: "",
-        endDate: "",
-        technologies: "",
-      },
-    ]);
+    setExperience([...experience, EXPERIENCE_TEMPLATE]);
   };
 
   const removeExperienceField = (index) => {

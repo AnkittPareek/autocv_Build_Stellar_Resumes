@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import { EDUCATION_TEMPLATE } from "../../../constants";
 
 const EducationDetails = ({ education, setEducation }) => {
   const handleEducationChange = (e, index) => {
@@ -10,14 +11,7 @@ const EducationDetails = ({ education, setEducation }) => {
   };
 
   const addEducationField = () => {
-    setEducation([
-      ...education,
-      {
-        degreeName: "",
-        institution: "",
-        percentage: "",
-      },
-    ]);
+    setEducation([...education, EDUCATION_TEMPLATE]);
   };
 
   const removeEducationField = (index) => {

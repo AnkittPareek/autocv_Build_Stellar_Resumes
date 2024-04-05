@@ -21,10 +21,20 @@ import ChooseLayout from "./ChooseLayout";
 import Layout1 from "../Layouts/Template1/Index";
 import Layout2 from "../Layouts/Template2/Index";
 import axiosInstance from "../../api/axios";
-import { RESUME_CREATE_URL } from "../../constants";
+import {
+  BASIC_DETAILS_TEMPLATE,
+  EDUCATION_TEMPLATE,
+  EXPERIENCE_TEMPLATE,
+  PROJECT_TEMPLATE,
+  RESUME_CREATE_URL,
+  SKILL_TEMPLATE,
+  SOCIAL_PROFILES_TEMPLATE,
+} from "../../constants";
 import Loader from "../../common/Loader/Loader";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+
+import PaymentModal from "./PaymentModal";
 
 const Editor = ({ service }) => {
   let navigate = useNavigate();
@@ -32,58 +42,20 @@ const Editor = ({ service }) => {
   let pdfRef = useRef();
 
   const [selectedLayout, setSelectedLayout] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const [basicDetails, setBasicDetails] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    intro: "",
+  const [paymentProcessing, setPaymentProcessing] = useState({
+    paymentFor: "",
+    status: "",
   });
 
-  const [experience, setExperience] = useState([
-    {
-      organization: "",
-      location: "",
-      position: "",
-      ctc: "",
-      startDate: "",
-      endDate: "",
-      technologies: "",
-    },
-  ]);
-  const [projects, setProjects] = useState([
-    {
-      title: "",
-      teamSize: "",
-      duration: "",
-      technologies: "",
-      description: "",
-    },
-  ]);
-  const [skills, setSkills] = useState([
-    {
-      name: "",
-      percentage: "",
-    },
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [basicDetails, setBasicDetails] = useState(BASIC_DETAILS_TEMPLATE);
+  const [experience, setExperience] = useState([EXPERIENCE_TEMPLATE]);
+  const [projects, setProjects] = useState([PROJECT_TEMPLATE]);
+  const [skills, setSkills] = useState([SKILL_TEMPLATE]);
   const [socialProfiles, setSocialProfiles] = useState([
-    {
-      platform: "",
-      profileLink: "",
-    },
+    SOCIAL_PROFILES_TEMPLATE,
   ]);
-  const [education, setEducation] = useState([
-    {
-      degreeName: "",
-      institution: "",
-      percentage: "",
-    },
-  ]);
+  const [education, setEducation] = useState([EDUCATION_TEMPLATE]);
 
   useEffect(() => {
     if (service === "update") {
@@ -161,7 +133,6 @@ const Editor = ({ service }) => {
       .post(RESUME_CREATE_URL, payload)
       .then((res) => {
         toast.success("Resume Saved Successfully!");
-
         setLoading(false);
         navigate("/dashboard");
       })
@@ -171,6 +142,7 @@ const Editor = ({ service }) => {
         toast.error("Something went wrong");
       });
   };
+
   const updateResume = (payload) => {
     setLoading(true);
     axiosInstance
@@ -191,7 +163,7 @@ const Editor = ({ service }) => {
   let validateBasicDetails = (details) => {
     const errors = [];
 
-    // Check each mandatory field
+    // Checking each mandatory field
     if (!details.name.trim()) {
       errors.push("Name is required");
     }
@@ -238,9 +210,15 @@ const Editor = ({ service }) => {
     service === "update" ? updateResume(payload) : saveResume(payload);
   };
 
+  const handlePayment = async () => {
+    setPaymentProcessing({
+      paymentFor: "download",
+      status: "processing",
+    });
+  };
+
   const handleDownload = () => {
     const htmlContent = ReactDOM.findDOMNode(pdfRef.current).outerHTML;
-
     // Create new jsPDF instance
     const doc = new jsPDF("p", "pt", "a4");
     // Convert HTML content to PDF
@@ -258,7 +236,6 @@ const Editor = ({ service }) => {
       .delete(`/api/v1/resume/${id}`)
       .then((res) => {
         toast.success("Resume Saved Successfully!");
-
         setLoading(false);
         toast.success("Resume Deleted Successfully!");
         navigate("/dashboard");
@@ -273,6 +250,14 @@ const Editor = ({ service }) => {
   return (
     <>
       <TopNavBar />
+      {/* PAYMENT MODAL TO COMPLETE PAYMENT AND THEN ALLOW DOWNLOAD */}
+      {paymentProcessing?.status === "processing" && (
+        <PaymentModal
+          paymentProcessing={paymentProcessing}
+          setPaymentProcessing={setPaymentProcessing}
+          handleDownload={handleDownload}
+        />
+      )}
       {loading && <Loader />}
       <Container className="mt-4">
         {window.location.pathname === "/create" && !selectedLayout ? (
@@ -289,7 +274,7 @@ const Editor = ({ service }) => {
                 </Button>
                 {service === "update" && (
                   <Button
-                    onClick={handleDownload}
+                    onClick={handlePayment}
                     className="me-2 "
                     variant="primary"
                   >
