@@ -1,12 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const {
-  secretKey,
-  // secretKeyRefreshToken,
-  expiresIn,
-  // refreshTokenExpiresIn,
-} = require("../config/jwtConfig");
+const { secretKey, expiresIn } = require("../config/jwtConfig");
 
 exports.register = async (req, res) => {
   try {
@@ -87,34 +82,12 @@ exports.login = async (req, res) => {
       }
     );
 
-    // // Generate refresh token
-    // const refreshToken = jwt.sign({ id: user._id }, secretKeyRefreshToken, {
-    //   expiresIn: refreshTokenExpiresIn,
-    // });
-
     res.json({ accessToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-// exports.refreshToken = (req, res) => {
-//   const { refreshToken } = req.body;
 
-//   // Verify the refresh token
-//   jwt.verify(refreshToken, secretKeyRefreshToken, (err, decoded) => {
-//     if (err) {
-//       return res
-//         .status(401)
-//         .json({ message: "Invalid or expired refresh token" });
-//     }
-
-//     // If refresh token is valid, generate a new access token
-//     const accessToken = jwt.sign({ id: decoded._id }, secretKey, {
-//       expiresIn: accessTokenExpiresIn,
-//     });
-//     res.json({ accessToken });
-//   });
-// };
 exports.login_google = async (req, res) => {
   try {
     const { token } = req.body;
@@ -152,11 +125,6 @@ exports.login_google = async (req, res) => {
             expiresIn: expiresIn,
           }
         );
-
-        // // Generate refresh token
-        // const refreshToken = jwt.sign({ id: user._id }, secretKeyRefreshToken, {
-        //   expiresIn: refreshTokenExpiresIn,
-        // });
 
         res.json({ accessToken });
       });

@@ -5,7 +5,11 @@ exports.pay = async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 100,
       currency: "inr",
+
+      //description and user information are kept static just for test purposes
+      // we can actually create a ui in frontend and fetch this information too
       description: "testdescription",
+
       shipping: {
         name: "Jenny Rosen",
         address: {

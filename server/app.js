@@ -4,11 +4,13 @@ require("dotenv").config();
 const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
-const testRoutes = require("./routes/testRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+
 const app = express();
+
 const PORT = process.env.PORT || 8080;
+
 // Use CORS middleware
 app.use(cors());
 // Connect to MongoDB
@@ -19,7 +21,6 @@ app.use(express.json());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/resume", resumeRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 
