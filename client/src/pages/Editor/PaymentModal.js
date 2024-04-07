@@ -12,7 +12,7 @@ import { PAYMENT_URL } from "../../constants";
 import axiosInstance from "../../api/axios";
 import { toast } from "react-toastify";
 
-const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
+const CheckoutForm = ({ setPaymentProcessing, handleDownload, setLoading }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -34,7 +34,7 @@ const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
         setIsProcessing(false);
         return;
       }
-
+      setLoading(true);
       const response = await axiosInstance.get(PAYMENT_URL);
 
       const { client_secret: clientSecret } = response.data;
@@ -49,9 +49,11 @@ const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
       });
 
       if (error) {
+        setLoading(false);
         setErrorMessage(error.message);
       } else {
         toast.success("Payment successful.");
+        setLoading(false);
         handleDownload();
         setPaymentProcessing((prev) => ({
           ...prev,
@@ -59,6 +61,7 @@ const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
         }));
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
       setErrorMessage("An error occurred while processing your payment.");
     } finally {
@@ -68,11 +71,21 @@ const CheckoutForm = ({ setPaymentProcessing, handleDownload }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h6 className="mb-4">
+        Please make a payment of 1 rupee to download the resume.
+      </h6>
       <PaymentElement />
-      <Button type="submit" disabled={!stripe || !elements || isProcessing}>
-        {isProcessing ? "Processing..." : "Pay"}
-      </Button>
-      {errorMessage && <div>{errorMessage}</div>}
+      <hr />
+      <div className="d-flex flex-column align-items-end">
+        {errorMessage && <small className="text-danger ">{errorMessage}</small>}
+        <button
+          className="btn btn-primary my-2 w-25"
+          type="submit"
+          disabled={!stripe || !elements || isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Confirm"}
+        </button>
+      </div>
     </form>
   );
 };
@@ -88,6 +101,7 @@ const options = {
 };
 
 const PaymentModal = ({
+  setLoading,
   paymentProcessing,
   setPaymentProcessing,
   handleDownload,
@@ -109,6 +123,7 @@ const PaymentModal = ({
       <Modal.Body>
         <Elements stripe={stripePromise} options={options}>
           <CheckoutForm
+            setLoading={setLoading}
             paymentProcessing={paymentProcessing}
             setPaymentProcessing={setPaymentProcessing}
             handleDownload={handleDownload}

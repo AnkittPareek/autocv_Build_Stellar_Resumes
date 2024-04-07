@@ -244,6 +244,7 @@ const Editor = ({ service }) => {
       {/* PAYMENT MODAL TO COMPLETE PAYMENT AND THEN ALLOW DOWNLOAD */}
       {paymentProcessing?.status === "processing" && (
         <PaymentModal
+          setLoading={setLoading}
           paymentProcessing={paymentProcessing}
           setPaymentProcessing={setPaymentProcessing}
           handleDownload={handleDownload}
