@@ -40,14 +40,16 @@ const Editor = ({ service }) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [basicDetails, setBasicDetails] = useState(BASIC_DETAILS_TEMPLATE);
-  const [experience, setExperience] = useState([EXPERIENCE_TEMPLATE]);
-  const [projects, setProjects] = useState([PROJECT_TEMPLATE]);
-  const [skills, setSkills] = useState([SKILL_TEMPLATE]);
+  const [basicDetails, setBasicDetails] = useState({
+    ...BASIC_DETAILS_TEMPLATE,
+  });
+  const [experience, setExperience] = useState([[{ ...EXPERIENCE_TEMPLATE }]]);
+  const [projects, setProjects] = useState([{ ...PROJECT_TEMPLATE }]);
+  const [skills, setSkills] = useState([{ ...SKILL_TEMPLATE }]);
   const [socialProfiles, setSocialProfiles] = useState([
-    SOCIAL_PROFILES_TEMPLATE,
+    { ...SOCIAL_PROFILES_TEMPLATE },
   ]);
-  const [education, setEducation] = useState([EDUCATION_TEMPLATE]);
+  const [education, setEducation] = useState([{ ...EDUCATION_TEMPLATE }]);
 
   useEffect(() => {
     if (service === "update") {

@@ -8,7 +8,7 @@ const SocialProfiles = ({ socialProfiles }) => {
       <div className="mb-4 card card-flat">
         <div className=" card card-body">
           {socialProfiles.map((profile, index) => (
-            <p key={index} className="text-sm text-gray-500">
+            <p key={index} className="text-sm text-gray-500 mb-2">
               {profile.platform}:{" "}
               <a href={profile.profileLink}>{profile.profileLink}</a>
             </p>

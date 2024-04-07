@@ -7,11 +7,15 @@ const EducationDetails = ({ education, setEducation }) => {
     const { name, value } = e.target;
     const updatedEducation = [...education];
     updatedEducation[index][name] = value;
+
+    console.log(updatedEducation[index], "updatedEducation", index);
     setEducation(updatedEducation);
   };
 
   const addEducationField = () => {
-    setEducation([...education, EDUCATION_TEMPLATE]);
+    const updatedEducation = [...education];
+    updatedEducation.push({ ...EDUCATION_TEMPLATE });
+    setEducation(updatedEducation);
   };
 
   const removeEducationField = (index) => {
@@ -51,13 +55,20 @@ const EducationDetails = ({ education, setEducation }) => {
               onChange={(e) => handleEducationChange(e, index)}
             />
           </Form.Group>
-          {/* Add more form fields for other education details */}
-          <button type="button" onClick={() => removeEducationField(index)}>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary mt-2"
+            onClick={() => removeEducationField(index)}
+          >
             Remove
           </button>
         </Form>
       ))}
-      <button type="button" onClick={addEducationField}>
+      <button
+        type="button"
+        onClick={addEducationField}
+        className="btn btn-sm btn-primary mt-2"
+      >
         Add Education
       </button>
     </>

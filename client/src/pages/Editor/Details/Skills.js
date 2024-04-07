@@ -11,7 +11,7 @@ const Skills = ({ skills, setSkills }) => {
   };
 
   const addSkillField = () => {
-    setSkills([...skills, SKILL_TEMPLATE]);
+    setSkills([...skills, { ...SKILL_TEMPLATE }]);
   };
 
   const removeSkillField = (index) => {
@@ -42,13 +42,20 @@ const Skills = ({ skills, setSkills }) => {
               onChange={(e) => handleSkillsChange(e, index)}
             />
           </Form.Group>
-          {/* Add more form fields for other skill details */}
-          <button type="button" onClick={() => removeSkillField(index)}>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary mt-2"
+            onClick={() => removeSkillField(index)}
+          >
             Remove
           </button>
         </Form>
       ))}
-      <button type="button" onClick={addSkillField}>
+      <button
+        type="button"
+        className="btn btn-sm btn-primary mt-2"
+        onClick={addSkillField}
+      >
         Add Skill
       </button>
     </>

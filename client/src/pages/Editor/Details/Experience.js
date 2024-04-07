@@ -11,7 +11,7 @@ const Experience = ({ experience, setExperience }) => {
   };
 
   const addExperienceField = () => {
-    setExperience([...experience, EXPERIENCE_TEMPLATE]);
+    setExperience([...experience, { ...EXPERIENCE_TEMPLATE }]);
   };
 
   const removeExperienceField = (index) => {
@@ -42,13 +42,20 @@ const Experience = ({ experience, setExperience }) => {
               onChange={(e) => handleExperienceChange(e, index)}
             />
           </Form.Group>
-          {/* Add more form fields for other experience details */}
-          <button type="button" onClick={() => removeExperienceField(index)}>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary mt-2"
+            onClick={() => removeExperienceField(index)}
+          >
             Remove
           </button>
         </Form>
       ))}
-      <button type="button" onClick={addExperienceField}>
+      <button
+        type="button"
+        className="btn btn-sm btn-primary mt-2"
+        onClick={addExperienceField}
+      >
         Add Experience
       </button>
     </>

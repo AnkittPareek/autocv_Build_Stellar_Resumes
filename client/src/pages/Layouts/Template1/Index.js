@@ -17,14 +17,14 @@ const Index = ({
   return (
     <div style={{ boxSizing: "border-box" }} className=" border border-2 ">
       <Header dark={true} basicDetails={basicDetails} />
-      <div className="d-flex gap-2">
-        <div className="col-6">
-          <Experience experience={experience} />
-        </div>
-        <div className="col-6">
-          <Education education={education} />
-        </div>
-      </div>
+      {/* <div className="d-flex gap-2"> */}
+      {/* <div className="col-6 "> */}
+      <Education education={education} />
+      {/* </div> */}
+      {/* <div className="col-6"> */}
+      <Experience experience={experience} />
+      {/* </div> */}
+      {/* </div> */}
 
       <Projects projects={projects} />
       <Skills skills={skills} />

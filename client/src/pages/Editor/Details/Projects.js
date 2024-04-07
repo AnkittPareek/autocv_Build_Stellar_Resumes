@@ -11,7 +11,7 @@ const Projects = ({ projects, setProjects }) => {
   };
 
   const addProjectField = () => {
-    setProjects([...projects, PROJECT_TEMPLATE]);
+    setProjects([...projects, { ...PROJECT_TEMPLATE }]);
   };
 
   const removeProjectField = (index) => {
@@ -42,13 +42,20 @@ const Projects = ({ projects, setProjects }) => {
               onChange={(e) => handleProjectsChange(e, index)}
             />
           </Form.Group>
-          {/* Add more form fields for other project details */}
-          <button type="button" onClick={() => removeProjectField(index)}>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary mt-2"
+            onClick={() => removeProjectField(index)}
+          >
             Remove
           </button>
         </Form>
       ))}
-      <button type="button" onClick={addProjectField}>
+      <button
+        type="button"
+        className="btn btn-sm btn-primary mt-2"
+        onClick={addProjectField}
+      >
         Add Project
       </button>
     </>

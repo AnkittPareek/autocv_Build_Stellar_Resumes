@@ -18,9 +18,8 @@ const Index = ({
     <div style={{ boxSizing: "border-box" }} className=" border border-2 ">
       <Header dark={false} basicDetails={basicDetails} />
 
-      <Experience experience={experience} />
-
       <Education education={education} />
+      <Experience experience={experience} />
 
       <Projects projects={projects} />
       <Skills skills={skills} />

@@ -7,8 +7,8 @@ const SkillBarGraph = ({ skill }) => {
   const barWidth = `${percentage}%`;
 
   return (
-    <div className="mb-4 d-flex align-items-center ">
-      <p className="mb-1 col-2 tag tag">{name}</p>
+    <div className="mb-2 d-flex align-items-center ">
+      <strong className="mb-1 col-2">{name}</strong>
       <div className="progress col-10" style={{ height: "20px" }}>
         <div
           className="progress-bar bg-success"
@@ -27,7 +27,7 @@ const SkillBarGraph = ({ skill }) => {
 
 const SkillsWithGraph = ({ skills }) => {
   return (
-    <div className="px-5 pb-3 pt-0 bg-white text-dark">
+    <div className="px-5 pb-2 pt-0 bg-white text-dark">
       <h4 className="text-2xl font-bold mb-4">Skills</h4>
       <hr />
       {skills.map((skill, index) => (

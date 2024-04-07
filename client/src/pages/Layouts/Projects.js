@@ -9,16 +9,16 @@ const Projects = ({ projects }) => {
         <div key={index} className="mb-4 card card-flat">
           <div key={index} className=" card card-body">
             <h6 className="font-bold">{project.title}</h6>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 mb-2">
               Team Size: {project.teamSize}
             </p>
-            <p className="text-sm text-gray-500">
+            {/* <p className="text-sm text-gray-500">
               Duration: {project.duration}
-            </p>
-            <p className="text-sm text-gray-500">
+            </p> */}
+            {/* <p className="text-sm text-gray-500">
               Technologies: {project.technologies}
             </p>
-            <p className="text-sm text-gray-500">{project.description}</p>
+            <p className="text-sm text-gray-500">{project.description}</p> */}
           </div>
         </div>
       ))}

@@ -11,7 +11,7 @@ const SocialProfiles = ({ socialProfiles, setSocialProfiles }) => {
   };
 
   const addSocialProfileField = () => {
-    setSocialProfiles([...socialProfiles, SOCIAL_PROFILES_TEMPLATE]);
+    setSocialProfiles([...socialProfiles, { ...SOCIAL_PROFILES_TEMPLATE }]);
   };
 
   const removeSocialProfileField = (index) => {
@@ -42,13 +42,20 @@ const SocialProfiles = ({ socialProfiles, setSocialProfiles }) => {
               onChange={(e) => handleSocialProfilesChange(e, index)}
             />
           </Form.Group>
-          {/* Add more form fields for other social profile details */}
-          <button type="button" onClick={() => removeSocialProfileField(index)}>
+          <button
+            type="button"
+            className="btn btn-sm btn-primary mt-2"
+            onClick={() => removeSocialProfileField(index)}
+          >
             Remove
           </button>
         </Form>
       ))}
-      <button type="button" onClick={addSocialProfileField}>
+      <button
+        type="button"
+        className="btn btn-sm btn-primary mt-2"
+        onClick={addSocialProfileField}
+      >
         Add Social Profile
       </button>
     </>
