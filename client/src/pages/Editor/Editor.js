@@ -17,6 +17,7 @@ import {
   BASIC_DETAILS_TEMPLATE,
   EDUCATION_TEMPLATE,
   EXPERIENCE_TEMPLATE,
+  LAYOUT_DATA,
   PROJECT_TEMPLATE,
   RESUME_CREATE_URL,
   SKILL_TEMPLATE,
@@ -190,8 +191,10 @@ const Editor = ({ service }) => {
     if (errors.length > 0) {
       return toast.error(errors[0]);
     }
+
+    // console.log()
     const payload = {
-      layout: selectedLayout.id,
+      layout: selectedLayout,
       basicDetails: basicDetails,
       experience: experience,
       projects: projects,
@@ -261,17 +264,21 @@ const Editor = ({ service }) => {
         ) : (
           <Row>
             <Row className="mb-3">
-              <Col>
-                <Button onClick={handleSave} className="me-2" variant="primary">
+              <Col className="">
+                <Button
+                  onClick={handleSave}
+                  className="me-2 mb-2"
+                  variant="primary"
+                >
                   {service === "update" ? "Update" : "Save"}
                 </Button>
                 {service === "update" && (
                   <Button
                     onClick={handlePayment}
-                    className="me-2 "
+                    className="me-2 mb-2 "
                     variant="primary"
                   >
-                    Download PDF
+                    Download
                   </Button>
                 )}
                 {/* {service === "update" && (
@@ -281,13 +288,26 @@ const Editor = ({ service }) => {
                 )} */}
                 {service === "update" && (
                   <Button
-                    className="me-2"
+                    className="me-2 mb-2"
                     variant="primary"
                     onClick={handleDelete}
                   >
                     Delete
                   </Button>
                 )}
+              </Col>
+              <Col className="text-end col-md-3   d-flex align-items-center gap-2">
+                <strong>Layout</strong>:{" "}
+                <select
+                  value={selectedLayout}
+                  onChange={(e) => {
+                    setSelectedLayout(e.target.value);
+                  }}
+                  className="form-select"
+                >
+                  <option value="1">Layout 1</option>
+                  <option value="2">Layout 2</option>
+                </select>
               </Col>
             </Row>
             <Col>

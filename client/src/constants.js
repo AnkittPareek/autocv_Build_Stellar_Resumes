@@ -61,3 +61,16 @@ export const EDUCATION_TEMPLATE = {
   institution: "",
   percentage: "",
 };
+
+export const LAYOUT_DATA = [
+  {
+    id: "1",
+    image: "",
+    title: "Sample Layout 1",
+  },
+  {
+    id: "2",
+    image: "",
+    title: "Sample Layout 2",
+  },
+];

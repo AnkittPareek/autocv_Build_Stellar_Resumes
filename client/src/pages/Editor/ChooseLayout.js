@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
+import { LAYOUT_DATA } from "../../constants";
 
 const ChooseLayout = ({ setSelectedLayout }) => {
   const [layouts, setLayouts] = useState([]);
 
   useEffect(() => {
-    let layoutData = [
-      {
-        id: "1",
-        image: "",
-        title: "Sample Layout 1",
-      },
-      {
-        id: "2",
-        image: "",
-        title: "Sample Layout 2",
-      },
-    ];
+    let layoutData = LAYOUT_DATA;
     setLayouts(layoutData);
   }, []);
 

@@ -64,3 +64,9 @@
   right:0;
 
 }
+
+/* Nav bar logo */
+
+.navBarLogo{
+  width: 40px;
+}

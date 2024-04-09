@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import Avatar from "react-avatar";
 import { APP_NAME } from "../../constants";
 import { getUserName } from "../commonFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import logo from "../../assets/logo.png";
+const LazyImage = lazy(() => import("../../pages/Authentication/LazyImage"));
+
 const TopNavBar = ({ isFrom }) => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -20,9 +23,16 @@ const TopNavBar = ({ isFrom }) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <span className="navbar-brand pointer">
-        <h5>{APP_NAME}</h5>
-      </span>
+      <div
+        role="button"
+        onClick={() => navigate("/dashboard")}
+        className="navbar-brand  d-flex gap-2 justify-content-center align-content-center"
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <LazyImage src={logo} className={"navBarLogo"} alt="Pattern" />
+        </Suspense>
+        <h5 className="my-auto ">{APP_NAME}</h5>
+      </div>
       <button
         className="navbar-toggler"
         type="button"

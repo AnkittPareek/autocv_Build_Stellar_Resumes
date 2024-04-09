@@ -149,7 +149,7 @@ const Login = () => {
         className="btn btn-sm   btn-outline-secondary  h-100"
       >
         {" "}
-        Login with Google
+        <i class="fa-brands fa-google"></i> <span>Login with Google</span>
       </button>
     </div>
   );
