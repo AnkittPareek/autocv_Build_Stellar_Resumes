@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import pattern from "../../assets/pattern.jpg";
+import logo from "../../assets/logo.png";
 import Registration from "./Registration";
 import Login from "./Login";
 import { APP_NAME } from "../../constants";
@@ -8,15 +9,18 @@ const LazyImage = lazy(() => import("./LazyImage"));
 
 const Index = () => {
   return (
-    <div className="d-flex">
+    <div className="d-block d-md-flex">
       <div
-        className="col-8  d-none d-md-block  position-relative"
+        className="col-md-8   d-md-block  position-relative"
         style={{ overflow: "hidden", maxHeight: "100vh" }}
       >
         <Suspense fallback={<div>Loading...</div>}>
-          <LazyImage src={pattern} alt="Pattern" />
+          <LazyImage src={pattern} className={"opacity-50 "} alt="Pattern" />
         </Suspense>
         <div className="position-absolute top-50 start-50 translate-middle text-center">
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyImage src={logo} className="w-25 " alt="Pattern" />
+          </Suspense>{" "}
           <h1 className="text">{APP_NAME}</h1>
           <p className="text-muted">
             Transform Your Career Path with Stellar Resumes

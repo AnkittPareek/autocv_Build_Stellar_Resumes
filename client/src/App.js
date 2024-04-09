@@ -72,7 +72,7 @@ function App() {
             </Routes>
           </RouterProvider>
         </GoogleOAuthProvider>
-        <ToastContainer position="top-center" />
+        <ToastContainer position="top-center" autoClose={1500} />
       </Suspense>
     </div>
   );

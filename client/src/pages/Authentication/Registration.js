@@ -80,7 +80,9 @@ const Registration = () => {
         toast.error(error.response.data.message);
       });
   };
-
+  const showPasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
   return (
     <div className="col-12  p-5  text-center d-flex flex-column justify-content-center ">
       {loading && <Loader />}
@@ -116,7 +118,7 @@ const Registration = () => {
             onChange={(phone) => handlePhoneChange(phone)}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group  form-password">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -125,8 +127,18 @@ const Registration = () => {
             value={data.password}
             onChange={handleChange}
           />
+          <button
+            type="button"
+            class="btn btn-sm   btn-text btn-text-accent h-100"
+            onClick={showPasswordClick}
+          >
+            <i
+              className={!showPassword ? "fa fa-eye" : "fa fa-eye-slash"}
+              aria-hidden="true"
+            ></i>
+          </button>
         </div>
-        <div className="form-group">
+        <div className="form-group form-password">
           <input
             type={showPassword ? "text" : "password"}
             name="confirmPassword"
@@ -135,24 +147,36 @@ const Registration = () => {
             value={data.confirmPassword}
             onChange={handleChange}
           />
+          <button
+            type="button"
+            class="btn btn-sm   btn-text btn-text-accent h-100"
+            onClick={showPasswordClick}
+          >
+            <i
+              className={!showPassword ? "fa fa-eye" : "fa fa-eye-slash"}
+              aria-hidden="true"
+            ></i>
+          </button>
         </div>
-        <a
-          className="icon-link mt-2 align-self-center"
+        <small
+          role="button"
+          className="link-primary icon-link mt-2 align-self-center"
           href="#"
           onClick={handleLogin}
         >
           Already have an account? Login here.
           <svg class="bi" aria-hidden="true"></svg>
-        </a>
-        <button
+        </small>
+        {/* <button
           type="button"
           class="btn btn-sm   btn-outline-secondary  h-100"
           onClick={() => {
             setShowPassword((prev) => !prev);
           }}
         >
-          Show Password<i class="fa fa-eye" aria-hidden="true"></i>
-        </button>
+          {showPassword ? "Hide" : "Show"} Password
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button> */}
       </div>
       <button
         onClick={handleRegister}
@@ -163,10 +187,10 @@ const Registration = () => {
       </button>{" "}
       <button
         onClick={() => registerWithGoogle()}
-        className="btn btn-sm   btn-outline-info  h-100"
+        className="btn btn-sm   btn-outline-secondary  h-100"
       >
         {" "}
-        Register With Google
+        <i class="fa-brands fa-google"></i> <span> Register With Google</span>
       </button>
     </div>
   );

@@ -1,3 +1,9 @@
+*{
+  font-family: Reddit Mono;
+  /* font-family: Dancing Script; */
+  /* font-size: large; */
+}
+
 /* Loader CSS */
 
 .loader-overlay {
@@ -42,5 +48,19 @@
    top:-15px;
    transition: 0.2s ease-in-out;
 
+
+}
+
+
+/* password css */
+
+.form-password{
+  position:relative;
+}
+
+.form-password button{
+  position: absolute;
+  top:0;
+  right:0;
 
 }

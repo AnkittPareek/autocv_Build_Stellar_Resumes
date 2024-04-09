@@ -76,6 +76,9 @@ const Login = () => {
     },
   });
 
+  const showPasswordClick = () => {
+    setShowPassword((prev) => !prev);
+  };
   return (
     <div className="col-12  p-5  text-center d-flex flex-column justify-content-center ">
       {loading && <Loader />}
@@ -93,7 +96,7 @@ const Login = () => {
           />
         </div>
         {/* Input field for password */}
-        <div className="form-group">
+        <div className="form-group form-password">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -102,24 +105,37 @@ const Login = () => {
             value={data.password}
             onChange={handleChange}
           />
+
+          <button
+            type="button"
+            class="btn btn-sm   btn-text btn-text-accent h-100"
+            onClick={showPasswordClick}
+          >
+            <i
+              className={!showPassword ? "fa fa-eye" : "fa fa-eye-slash"}
+              aria-hidden="true"
+            ></i>
+          </button>
         </div>
-        <a
-          className="icon-link mt-2 align-self-center"
+        <small
+          role="button"
+          className="link-primary icon-link mt-2 align-self-center"
           href="#"
           onClick={handleRegister}
         >
           Don't have an account? Register here.
           <svg class="bi" aria-hidden="true"></svg>
-        </a>
-        <button
+        </small>
+        {/* <button
           type="button"
           class="btn btn-sm   btn-outline-secondary  h-100"
           onClick={() => {
             setShowPassword((prev) => !prev);
           }}
         >
-          Show Password<i class="fa fa-eye" aria-hidden="true"></i>
-        </button>
+          {showPassword ? "Hide" : "Show"} Password
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button> */}
       </div>
       <button
         onClick={handleLogin}
@@ -130,7 +146,7 @@ const Login = () => {
       </button>{" "}
       <button
         onClick={loginWithGoogle}
-        className="btn btn-sm   btn-outline-info  h-100"
+        className="btn btn-sm   btn-outline-secondary  h-100"
       >
         {" "}
         Login with Google

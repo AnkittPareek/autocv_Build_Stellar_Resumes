@@ -1,4 +1,4 @@
-import React, { startTransition, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavBar from "../../common/TopNavBar/TopNavBar";
 import Template1 from "../Layouts/Template1/Index";
@@ -33,9 +33,7 @@ const Dashboard = () => {
   };
 
   const handleCreate = () => {
-    startTransition(() => {
-      navigate("/create");
-    });
+    navigate("/create");
   };
 
   const handleResumeClick = (resumeId) => {

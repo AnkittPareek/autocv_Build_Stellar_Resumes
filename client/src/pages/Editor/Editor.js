@@ -228,7 +228,6 @@ const Editor = ({ service }) => {
     axiosInstance
       .delete(`/api/v1/resume/${id}`)
       .then((res) => {
-        toast.success("Resume Saved Successfully!");
         setLoading(false);
         toast.success("Resume Deleted Successfully!");
         navigate("/dashboard");
@@ -275,11 +274,11 @@ const Editor = ({ service }) => {
                     Download PDF
                   </Button>
                 )}
-                {service === "update" && (
+                {/* {service === "update" && (
                   <Button className="me-2" variant="primary">
                     Share
                   </Button>
-                )}
+                )} */}
                 {service === "update" && (
                   <Button
                     className="me-2"
