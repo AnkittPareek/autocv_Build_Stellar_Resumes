@@ -7,6 +7,8 @@ import Loader from "../../common/Loader/Loader";
 import axiosInstance from "../../api/axios";
 import { RESUME_FETCHALL_URL } from "../../constants";
 import { toast } from "react-toastify";
+import Avatar from "react-avatar";
+import moment from "moment";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -67,14 +69,42 @@ const Dashboard = () => {
             return (
               <div className=" col mb-4 " key={resumeId}>
                 <div
-                  className="card dashboard_resume_card"
+                  className="card 
+                  dashboard_resume_card"
                   onClick={() => handleResumeClick(resumeId)}
                 >
                   <div
                     className="card-body"
-                    style={{ maxHeight: "700px", overflow: "hidden" }}
+                    // style={{ maxHeight: "700px", overflow: "hidden" }}
                   >
-                    {layout === "1" ? (
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <span>Name: {basicDetails.name}</span>
+                        <br />
+                        <span>Layout: {layout}</span>
+                        <br />
+                        <span className="d-flex">
+                          Skills:{" "}
+                          <div className="block">
+                            {" "}
+                            {skills.map((x) => (
+                              <span className="tag">{x.name}</span>
+                            ))}
+                          </div>
+                        </span>
+                      </div>
+                      <Avatar round={true} size="40" name={basicDetails.name} />{" "}
+                    </div>
+                    <hr />
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <span>
+                          Create on: <i class="fa-regular fa-clock"></i>{" "}
+                          {moment(resume.createdAt).format("MM/DD/YYYY")}
+                        </span>
+                      </div>
+                    </div>
+                    {/* {layout === "1" ? (
                       <Template1
                         basicDetails={basicDetails}
                         experience={experience}
@@ -92,7 +122,7 @@ const Dashboard = () => {
                         socialProfiles={socialProfiles}
                         education={education}
                       />
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

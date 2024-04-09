@@ -44,11 +44,23 @@
 }
 .dashboard_resume_card:hover{
     display: relative;
-    scale: 1.05;
-   top:-15px;
+    scale: 1.15;
+   /* top:-15px; */
    transition: 0.2s ease-in-out;
+   z-index: 20;
+}
 
-
+.tag{
+  font-size: 12px;
+  padding : 1px 5px;
+  display: inline-flex;
+  align-items:  center;
+  background:  #f1f1f1;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  position: relative;
+  margin-right: 5px;
 }
 
 

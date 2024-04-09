@@ -53,19 +53,22 @@ const educationSchema = new mongoose.Schema({
 });
 
 // main resume schema
-const resumeSchema = new mongoose.Schema({
-  layout: String,
-  basicDetails: basicDetailsSchema,
-  experience: [experienceSchema],
-  projects: [projectSchema],
-  skills: [skillSchema],
-  socialProfiles: [socialProfileSchema],
-  education: [educationSchema],
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+const resumeSchema = new mongoose.Schema(
+  {
+    layout: String,
+    basicDetails: basicDetailsSchema,
+    experience: [experienceSchema],
+    projects: [projectSchema],
+    skills: [skillSchema],
+    socialProfiles: [socialProfileSchema],
+    education: [educationSchema],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-});
+  { timestamps: true }
+);
 
 const Resume = mongoose.model("Resume", resumeSchema);
 module.exports = Resume;
