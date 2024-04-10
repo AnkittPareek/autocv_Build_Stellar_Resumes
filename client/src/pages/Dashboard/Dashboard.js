@@ -100,7 +100,9 @@ const Dashboard = () => {
                       <div>
                         <span>
                           Create on: <i class="fa-regular fa-clock"></i>{" "}
-                          {moment(resume.createdAt).format("MM/DD/YYYY")}
+                          {moment(resume.createdAt).format(
+                            "MM/DD/YYYY HH:MM:ss"
+                          )}
                         </span>
                       </div>
                     </div>
