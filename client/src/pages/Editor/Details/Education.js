@@ -7,8 +7,6 @@ const EducationDetails = ({ education, setEducation }) => {
     const { name, value } = e.target;
     const updatedEducation = [...education];
     updatedEducation[index][name] = value;
-
-    console.log(updatedEducation[index], "updatedEducation", index);
     setEducation(updatedEducation);
   };
 
