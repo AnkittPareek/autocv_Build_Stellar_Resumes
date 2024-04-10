@@ -66,11 +66,13 @@ export const LAYOUT_DATA = [
   {
     id: "1",
     image: "",
-    title: "Sample Layout 1",
+    title: "Traditional",
+    details: ["Professional Appearance", "Easy to Read", "Widely Accepted"],
   },
   {
     id: "2",
     image: "",
-    title: "Sample Layout 2",
+    title: "Creative",
+    details: ["Visual Appeal", "Showcases Skills", "Memorable and Engaging"],
   },
 ];

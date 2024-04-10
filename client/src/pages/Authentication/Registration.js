@@ -8,11 +8,12 @@ import Loader from "../../common/Loader/Loader";
 import axiosInstance from "../../api/axios";
 import { validate } from "react-email-validator";
 import { useGoogleLogin } from "@react-oauth/google";
+import parsePhoneNumber from "libphonenumber-js";
 
 const Registration = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isPhoneValid, setIsPhoneValid] = useState(true);
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
@@ -36,6 +37,7 @@ const Registration = () => {
   const registerWithGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       let { access_token } = tokenResponse;
+      setLoading(true);
       await axiosInstance
         .post(REGISTER_URL_GOOGLE, { token: access_token })
         .then((response) => {
@@ -53,17 +55,17 @@ const Registration = () => {
   });
 
   const handleRegister = async () => {
-    setLoading(true);
-
     if (!data.username) return toast.error("Please enter a username");
     if (!data.email) return toast.error("Please enter a email");
+    if (!validate(data.email)) return toast.error("Please enter a valid email");
+    if (!isPhoneValid) return toast.error("Please enter a valid phone number");
     if (!data.password) return toast.error("Please enter a password");
     if (data.password !== data.confirmPassword)
       return toast.error(
         "Your password is not matching with the confirm password"
       );
 
-    if (!validate(data.email)) return toast.error("Please enter a valid email");
+    setLoading(true);
     await axiosInstance
       .post(REGISTER_URL, {
         username: data.username,
@@ -102,7 +104,7 @@ const Registration = () => {
         <div className="form-group ">
           <input
             type="email"
-            className="form-control"
+            className="form-control "
             name="email"
             placeholder="Email"
             value={data.email}
@@ -112,9 +114,17 @@ const Registration = () => {
         {/* Input field for password */}
         <div className="form-group ">
           <PhoneInput
-            country={"us"}
+            country={"in"}
             value={data.phone}
-            inputClass="w-100"
+            isValid={(value, country) => {
+              const phoneNumber = parsePhoneNumber(
+                value?.toString(),
+                country?.iso2?.toUpperCase()
+              );
+              setIsPhoneValid(phoneNumber?.isValid());
+              return phoneNumber?.isValid();
+            }}
+            inputClass={`w-100`}
             onChange={(phone) => handlePhoneChange(phone)}
           />
         </div>

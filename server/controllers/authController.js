@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
     const { username, email, phone, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({ message: "Account already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, email, phone, password: hashedPassword });
@@ -39,7 +39,7 @@ exports.register_google = async (req, res) => {
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-          return res.status(400).json({ message: "Email already exists" });
+          return res.status(400).json({ message: "Account already exists" });
         }
         const hashedPassword = await bcrypt.hash("test@123", 10);
         const user = new User({

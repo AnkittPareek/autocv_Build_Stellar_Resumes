@@ -305,8 +305,13 @@ const Editor = ({ service }) => {
                   }}
                   className="form-select"
                 >
-                  <option value="1">Layout 1</option>
-                  <option value="2">Layout 2</option>
+                  {/* <option value="1">Layout 1</option>
+                  <option value="2">Layout 2</option> */}
+                  {LAYOUT_DATA?.map((layout) => (
+                    <option value={layout.id} key={layout.id}>
+                      {layout.title}
+                    </option>
+                  ))}
                 </select>
               </Col>
             </Row>

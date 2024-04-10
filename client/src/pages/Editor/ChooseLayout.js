@@ -16,16 +16,25 @@ const ChooseLayout = ({ setSelectedLayout }) => {
       <div className="row">
         {layouts.map((layout) => (
           <div key={layout.id} className="col-md-4 mb-4">
-            <Card>
+            <Card
+              onClick={() => setSelectedLayout(layout.id)}
+              className=" dashboard_resume_card"
+            >
               <Card.Img variant="top" src={layout.image} />
               <Card.Body>
                 <Card.Title>{layout.title}</Card.Title>
-                <Button
+                <hr />
+                <ol>
+                  {layout.details.map((li, i) => (
+                    <li key={i}> {li}</li>
+                  ))}
+                </ol>
+                {/* <Button
                   variant="primary"
                   onClick={() => setSelectedLayout(layout.id)}
                 >
                   Select Layout
-                </Button>
+                </Button> */}
               </Card.Body>
             </Card>
           </div>

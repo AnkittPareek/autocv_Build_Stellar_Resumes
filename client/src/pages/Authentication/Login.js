@@ -23,9 +23,9 @@ const Login = () => {
   };
 
   const handleLogin = (e) => {
-    if (!data?.password) return toast.error("Please enter your password.");
     if (!data?.email) return toast.error("Please enter your email.");
     if (!validate(data.email)) return toast.error("Please enter a valid email");
+    if (!data?.password) return toast.error("Please enter your password.");
 
     setLoading(true);
 
@@ -55,6 +55,7 @@ const Login = () => {
   const loginWithGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       let { access_token } = tokenResponse;
+      setLoading(true);
       await axiosInstance
         .post(LOGIN_URL_GOOGLE, { token: access_token })
         .then((response) => {
